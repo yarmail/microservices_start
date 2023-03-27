@@ -1,0 +1,76 @@
+eureka_server модуль контейнер (реестр)
+в котором мы будем публиковать наши микросервисы
+
+File > New > Module
+Выбираем Spring Initializr
+Name - eureka_server
+Language - Java
+Type - Gradle-Groovy
+Project SDK - SDK 17
+Packaging - Jar
+
+NEXT
+
+Spring Boot 2.7.10
+Оставляем галку на Download pre-build shared indexes for
+JDK and Maven libraries
+
+Выбираем зависимости dependencies:
+Spring Cloud Discovery > Eureka Server
+(сюда будут публиковаться микросервисы)
+
+Примечание: Eureka Discovery Client
+позволяет создавать микросервисы и публиковать их
+внутри Eureka Server (он здесь не нужен)
+
+Finish
+
+---
+
+Проверяем файл настроек именно этого проекта
+microservices_start\eureka_server\build.gradle
+id 'org.springframework.boot' version '2.7.10'
+
+microservices_start\eureka_server\settings.gradle
+rootProject.name = 'eureka_server'
+
+microservices_start\eureka_server\gradle\wrapper\gradle-wrapper.properties
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.0-bin.zip
+
+Не забываем добавлять вновь созданные модули в корневой файл проекта
+microservices_start\settings.gradle
+где у нас есть запись:
+rootProject.name = 'microservices_start'
+Например добавляем туда eureka_server таким образом
+includeBuild 'eureka_server'
+
+---
+
+В файл
+microservices_start\eureka_server\src\main\java\com\example\eureka_server\EurekaServerApplication.java
+добавляем аннотацию
+@EnableEurekaServer
+
+---
+
+Заполняем настройки в файле
+microservices_start\eureka_server\src\main\resources\application.properties
+# возможно порт поменяется
+server.port=8081
+
+# id приложения - желательно указывать всегда в микросервисных приложениях
+spring.application.name=eserver
+
+# т.к. это не клиент, то убираем лишние настройки (регистрация веб сервисов и пр.)
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+
+# url, куда будет происходить регистрация микросервисов
+eureka.client.service-url.defaultZone=http://localhost:8081/eureka
+
+# отключение лишних логов, т.к. не тут не будем создавать и вызывать микросервисы
+logging.level.com.netflix.eureka=OFF
+logging.level.com.netflix.discovery=OFF
+
+# более короткое отображение логов
+logging.pattern.console=%C{1.} [%-5level] %d{HH:mm:ss} - %msg%n

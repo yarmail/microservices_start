@@ -1,0 +1,36 @@
+File > New > Project >
+Отмечаем gradle, задаем имя проекта microservices_start
+Отдельно Gradle я не устанавливал, вероятно сработал
+gradle/wrapper/gradle-wrapper.jar
+
+Сразу создаем или копируем файл README.MD и .gitignore
+
+Если есть вопрос по версии gradle, то для java 17
+я выбираю (заменяю) в файле
+gradle/wrapper/gradle-wrapper.properties
+версию
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.0-bin.zip
+и обновляю
+Проверяем, что в файле
+settings.gradle правильное название
+rootProject.name = 'microservices_start'
+
+
+Далее создаем модули с необходимыми сервисами
+File > New > Module
+
+Не забываем добавлять вновь созданные модули в корневой файл
+microservices_start\settings.gradle
+где у нас есть запись:
+rootProject.name = 'microservices_start'
+Например добавляем туда eureka_server таким образом
+includeBuild 'eureka_server'
+
+Примечание
+Чтобы файл настроек адекватно относился к русскому языку
+я изменяю кодировку файлов .properties
+Для этого я изменил следующую настройку:
+File > Settings > Editor > File Encodings
+Default encoding for properties files:
+Было: Properties Default: ISO-8859-1
+Стало: UTF-8
