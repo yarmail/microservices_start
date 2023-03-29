@@ -10,9 +10,10 @@ microservices_start\eureka_client\src\main\java\com\example\eureka_client\contro
 Запускаем сервер и клиент
 Далее кликаем на порт клиента (случайно выданный)
 Открывается вебстраница с нашим портом пустая и с ошибкой
-дописываем /test в адресную строку например так:
-http://localhost:49649/test
+дописываем /main/test в адресную строку например так:
+http://localhost:49649/main/test
 и получаем слово test из контроллера
+
 Если мы нажмем на порт сервера - то увидим что в списке
 Instances currently registered with Eureka
 появился клиент со статусом UP - работает

@@ -1,0 +1,32 @@
+Запросы через api_gateway
+
+После того, как все заработало и запущено
+мы можем делать запрос к Клиенту, но не напрямую,
+а через api_gateway
+(если api_gateway например висит на порту 8082) то запрос
+к Клиенту в браузере может быть таким
+http://localhost:8082/eclient/main/test
+мы должны получить ответ test от тестового контроллера
+сервиса eclient
+(нам не важно на каком порту Клиент, он находится автоматически)
+
+Второй вариант -
+мы можем вручную перенаправлять запрос на нужный микросервис.
+Для этого прописываем нужные настройки в файл
+microservices_start\api_gateway\src\main\resources\application.properties
+#-------------------------------------------------------
+# роутинг (перенаправление) запроса на нужный микросервис
+# id - идентификатор самого роута
+# uri=lb://eclient - к какому сервису будет идти обращение
+# predicates - какой запрос будет преобразован
+# Было: http://localhost:8082/eclient/main/test
+# Стало: http://localhost:8082/main/test
+spring.cloud.gateway.routes[0].id=test
+spring.cloud.gateway.routes[0].uri=lb://eclient
+spring.cloud.gateway.routes[0].predicates[0]=Path=/main/test
+spring.cloud.gateway.routes[0].predicates[1]=Method=GET
+
+------------
+
+Роутинг бывает нужен, чтобы например сократить
+путь к нужному функционалу.
