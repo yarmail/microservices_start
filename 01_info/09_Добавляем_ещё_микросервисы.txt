@@ -1,4 +1,6 @@
-eureka_client поставщик микросервисов
+Теперь мы молжем расширять наш функционал
+и добавлять ещё сервисы
+Для примера добавим eureka_client2
 
 File > New > Module
 Выбираем Spring Initializr
@@ -26,13 +28,13 @@ FINISH
 ---
 
 Проверяем файл настроек именно этого проекта
-microservices_start\eureka_client\build.gradle
+microservices_start\eureka_client2\build.gradle
 id 'org.springframework.boot' version '2.7.10'
 
-microservices_start\eureka_client\settings.gradle
-rootProject.name = 'eureka_client'
+microservices_start\eureka_client2\settings.gradle
+rootProject.name = 'eureka_client2'
 
-microservices_start\eureka_client\gradle\wrapper\gradle-wrapper.properties
+microservices_start\eureka_client2\gradle\wrapper\gradle-wrapper.properties
 distributionUrl=https\://services.gradle.org/distributions/gradle-8.0-bin.zip
 
 Не забываем добавлять вновь созданные модули в корневой файл проекта
@@ -40,7 +42,7 @@ microservices_start\settings.gradle
 где у нас есть запись:
 rootProject.name = 'microservices_start'
 Например добавляем туда eureka_client таким образом
-includeBuild 'eureka_client'
+includeBuild 'eureka_client2'
 
 ---
 В файл
@@ -60,3 +62,11 @@ spring.application.name=eclient
 
 # url, куда будет происходить регистрация микросервисов
 eureka.client.service-url.defaultZone=http://localhost:8081/eureka
+
+---
+
+Также можно скопировать тестовый контроллер для данного сервиса
+Протестировать через api_gateway теперь можно так
+http://localhost:8082/eclient2/main2/test2
+
+Также можно в api_gateway можно сделать роут и несколько сократить путь
