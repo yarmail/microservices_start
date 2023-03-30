@@ -55,8 +55,7 @@ microservices_start\eureka_server\src\main\java\com\example\eureka_server\Eureka
 
 Заполняем настройки в файле
 microservices_start\eureka_server\src\main\resources\application.properties
-# возможно порт поменяется
-server.port=8081
+server.port=8761
 
 # id приложения - желательно указывать всегда в микросервисных приложениях
 spring.application.name=eserver
@@ -66,7 +65,7 @@ eureka.client.register-with-eureka=false
 eureka.client.fetch-registry=false
 
 # url, куда будет происходить регистрация микросервисов
-eureka.client.service-url.defaultZone=http://localhost:8081/eureka
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
 
 # отключение лишних логов, т.к. не тут не будем создавать и вызывать микросервисы
 logging.level.com.netflix.eureka=OFF

@@ -61,12 +61,12 @@ server.port=0
 spring.application.name=eclient
 
 # url, куда будет происходить регистрация микросервисов
-eureka.client.service-url.defaultZone=http://localhost:8081/eureka
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
 
 ---
 
 Также можно скопировать тестовый контроллер для данного сервиса
 Протестировать через api_gateway теперь можно так
-http://localhost:8082/eclient2/main2/test2
+http://localhost:8765/eclient2/main2/test2
 
 Также можно в api_gateway можно сделать роут и несколько сократить путь

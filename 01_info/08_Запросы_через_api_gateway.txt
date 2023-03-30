@@ -3,9 +3,9 @@
 После того, как все заработало и запущено
 мы можем делать запрос к Клиенту, но не напрямую,
 а через api_gateway
-(если api_gateway например висит на порту 8082) то запрос
+(если api_gateway например висит на порту 8765) то запрос
 к Клиенту в браузере может быть таким
-http://localhost:8082/eclient/main/test
+http://localhost:8765/eclient/main/test
 мы должны получить ответ test от тестового контроллера
 сервиса eclient
 (нам не важно на каком порту Клиент, он находится автоматически)
@@ -19,8 +19,8 @@ microservices_start\api_gateway\src\main\resources\application.properties
 # id - идентификатор самого роута
 # uri=lb://eclient - к какому сервису будет идти обращение
 # predicates - какой запрос будет преобразован
-# Было: http://localhost:8082/eclient/main/test
-# Стало: http://localhost:8082/main/test
+# Было: http://localhost:8765/eclient/main/test
+# Стало: http://localhost:8765/main/test
 spring.cloud.gateway.routes[0].id=test
 spring.cloud.gateway.routes[0].uri=lb://eclient
 spring.cloud.gateway.routes[0].predicates[0]=Path=/main/test

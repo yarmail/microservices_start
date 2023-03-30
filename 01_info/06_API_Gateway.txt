@@ -59,13 +59,13 @@ includeBuild 'api_gateway'
 
 Заполняем настройки в файле
 microservices_start\api_gateway\src\main\resources\application.properties
-server.port=8082
+server.port=8765
 
 # id (имя) приложения - желательно указывать всегда в микросервисных приложениях
 spring.application.name=api_gateway
 
 # url, куда будет происходить регистрация микросервисов
-eureka.client.service-url.defaultZone=http://localhost:8081/eureka
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
 
 # для корректной работы api_gateway - определение и перенаправление запросов
 spring.cloud.gateway.discovery.locator.enabled=true
