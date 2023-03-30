@@ -1,0 +1,43 @@
+Load Balancer (LB)
+
+Балансировщик нагрузки - перенаправляет запросы на нужный экземпляр
+приложения (если их запущено несколько)
+
+Spring разработал свою реализацию - Spring Cloud Load Balancer
+В Spring API Gateway существует автоматически работа LB,
+который сам принимает решение, куда перенаправить запрос.
+
+Проведем эксперимент и запустим несколько экзепляров сервисов,
+чтобы показать как LB распределяет нагрузку
+Для запуска нескольких копий сервиса заходим
+Run > Edit Configuration   и выбираем
+EurekaClientApplication
+и нажимаем кнопку Copy Configuration, у каждой копии меняем
+(добавляем к названию)  1, 2, 3
+
+(см. copy_service.png)
+
+Добавляем в настройки
+microservices_start\eureka_client\src\main\resources\application.properties
+# для того, чтобы каждый инстанс имел уникальный id
+eureka.instance.instance-id=${spring.application.name}:${random.uuid}
+
+Добавляем в контроллер id сервиса, который будет отвечать
+microservices_start\eureka_client\src\main\java\com\example\eureka_client\controller\TestController.java
+Возврат этого id будет показывать, какой именно сервис ответил
+
+Опять запускаем поочередно, сервер,  все сервисы и шлюз
+Открываем ссылку на которой висит сервер, и видим, что в списке
+Instances currently registered with Eureka
+3 сервиса ECLIENT c 3 уникальными id
+
+Открываем 3 вкладки в браузере и в каждой из них
+запрашиваем http://localhost:8082/main/test
+в ответ в каждой из вкладок должно быть 3 разных uuid
+Можно также делать несколько запросов в одной вкладке
+и uuid на каждый запрос должен меняться.
+Таким образом мы убеждаемся, что LB работает
+
+
+
+
