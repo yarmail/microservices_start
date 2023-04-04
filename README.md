@@ -1,6 +1,6 @@
 <h3> Микросервисы - простой проект </h3>
 Описание - создаем простой наглядный проект с использованием различных 
-технологий Spring Cloud
+технологий Spring Cloud. Создаем сервер, шлюз и 2 клиентских приложения<br>
 
 <details>
 <summary>Примечание: информация о проекте</summary>
@@ -16,7 +16,6 @@ Spring Boot,<br>
 Spring Cloud Discovery: Eureka Server, Eureka Client <br>
 Spring Cloud Routing > Gateway <br>
 Spring Reactive Web <br>
-
 </details>
 
 <details>

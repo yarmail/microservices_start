@@ -1,0 +1,129 @@
+Spring Cloud Config  (с 21)
+
+(рассказываем, но в данном проекте не используем)
+
+Основная цель - вынести файлы настроек (например .*properties)
+из приложения и хранить их отдельно от приложений
+в отдельном файле или репозитории например.
+Примечание. При работе с гитхаб Spring Cloud Config настроен
+работать с веткой main, а не master
+
+
+Можно использовать одни и те же настройки для определенных приложений
+(это может оказаться лучше, чем дублировать в файле properties их внутри
+самого приложения)
+Тем самым достигается гибкость - можно изменять настройки без перезапуска
+микросервисов (изменения подхватываются "на лету")
+
+В Спринге реализовано отдельное направление Spring Cloud Config
+https://spring.io/projects/spring-cloud-config
+
+Для Spring Cloud Config мы создаем отдельное приложение,
+такое же как для сервера или клиента, с помощью Spring Boot
+
+---
+
+File > New > Module
+Выбираем Spring Initializr
+Name - config_server
+Language - Java
+Type - Gradle-Groovy
+Project SDK - SDK 17
+Packaging - Jar
+
+NEXT
+
+Spring Boot 2.7.10
+Оставляем галку на Download pre-build shared indexes for
+JDK and Maven libraries
+
+Выбираем зависимости dependencies:
+Spring Cloud Config > Config Server
+
+FINISH
+
+---
+
+Не забываем добавлять вновь созданные модули в корневой файл проекта
+microservices_start\settings.gradle
+где у нас есть запись:
+rootProject.name = 'microservices_start'
+Например добавляем туда eureka_server таким образом
+includeBuild 'config_server'
+
+---
+
+В основной запускной файл проекта, в котором у нас находится
+@SpringBootApplication,
+например ConfigServerApplication.java
+добавляем аннотацию @EnableConfigServer
+
+---
+
+Заполняем настройки в файле application.properties
+
+server.port=8888
+
+spring.application.name=config_server
+
+# доступ к git репозиторию (для примера)
+spring.cloud.config.server.git.uri=https://github.com/javabegin1/prop-test.git
+
+# клонировать удаленный git репозиторий в локальный git (чтобы не делать это вручную)
+spring.cloud.config.server.git.clone-on-start=true
+# куда будет клонироваться удаленный репозиторий
+spring.cloud.config.server.git.basedir=file://c:/tmp/git-c
+
+# для private репозитория потребуется логин-token
+spring.cloud.config.server.git.username=javabegin1
+spring.cloud.config.server.git.password=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
+
+# название ветки лучше явно уточнить
+spring.cloud.config.server.git.default-label=main
+
+# более короткое отображение логов
+logging.pattern.console=%C{1.} [%-5level] %d{HH:mm:ss} - %msg%n
+
+---
+
+После успешной установки мы можем создать файл, по адресу, куда
+мы клонировали git репозиторий (для примера это c:/tmp/git-c)
+eclient.properties (по названию из проперти) и перенести туда
+некоторые настройки от eureka_client, после чего, через Git Bash пушим его
+на удаленный сервер. (Настройки самого config_server лучше никуда не выносить)
+
+Проверить работу config_server
+мы можем, запустив все службы и потом сделать в браузере запрос:
+http://localhost:8888/eureka_client/default
+
+
+В клиентском приложении (например eureka_client)
+меняем настройки и указываем сервер с которого их надо читать
+# считывание настроек с помощью spring cloud config
+spring.config.import=configserver:http://localhost:8888
+
+Также в файл
+microservices_start\eureka_client\build.gradle
+нужно добавить зависимость в раздел dependencies
+implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+
+
+
+
+Работа с файлами .properties
+Если мы обобщаем настройки нескольких приложений и выносим
+их в отдельный файл, то в этих приложениях, в настройках,
+мы можем указать профиль, например
+spring.profiles.active=micro
+а сам файл с этими настроками назвать
+application-micro.properties
+тогда приложения будут читать настройки из такого файла
+Как я понимаю,
+application.properties считывается всеми приложениями
+application-micro.properties считывается теми у кого такой профиль
+также есть профильные названия, например
+api_gateway.property или
+eureka_server.property,
+их будут считывать только те приложения, которое имеют такое имя в
+названии
