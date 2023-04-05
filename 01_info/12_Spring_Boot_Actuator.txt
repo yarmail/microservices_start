@@ -1,0 +1,39 @@
+Spring Boot Actuator
+
+Spring Boot включает в себя много дополнительных возможностей
+для управления и мониторинга приложений
+
+Как я понимаю Actuator входит в состав пакета
+org.springframework.cloud:spring-cloud-starter-netflix-eureka-server
+так что к к серверу его подключать не надо
+
+Подключим актуатор для api_gateway. В файле
+microservices_start\api_gateway\build.gradle
+подключаем зависимость
+implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+После этого добавляем дополнительные стройки в файл настроек
+microservices_start\api_gateway\src\main\resources\application.properties
+# включаем актуатор
+management.endpoint.gateway.enabled=true
+# какие настройки хотим включить (все)
+management.endpoints.jmx.exposure.include=*
+
+При желании мы можем сделать подключение мониторинга (актуатора)
+таким же способом в другие приложения
+
+
+После запуска приложения во вкладке Services
+мы можем увидеть меню Actuator в котором
+(если все правильно установлено)
+будут работать 3 вкладки - Beans, Health, Mappings
+Beans - бины, которые были созданы в соотвествующем
+контейнере
+Health - это текущее состояние приложения
+Mappings - c помощью этой ссылки мы можем вызывать различные
+полезные ссылки, такие как, например:
+/actuator
+/actuator/health
+и многие другие (в зависимости от приложения)
+Рекомендуется просмореть эти ссылки там много
+полезной информации

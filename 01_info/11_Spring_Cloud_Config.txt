@@ -107,10 +107,6 @@ microservices_start\eureka_client\build.gradle
 нужно добавить зависимость в раздел dependencies
 implementation 'org.springframework.cloud:spring-cloud-starter-config'
 
-
-
-
-
 Работа с файлами .properties
 Если мы обобщаем настройки нескольких приложений и выносим
 их в отдельный файл, то в этих приложениях, в настройках,
@@ -127,3 +123,7 @@ api_gateway.property или
 eureka_server.property,
 их будут считывать только те приложения, которое имеют такое имя в
 названии
+
+Примечание. Если вы выносите настройки в отдельный файл,
+(и, или github) вы должны config_server запускать первым
+иначе остальные приложения не смогут считать свои настройки
