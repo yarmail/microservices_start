@@ -13,7 +13,7 @@
 <details>
 <summary>Инструменты и технологии</summary>
 Windows 7 x64, Java 17, Gradle 8, <br> 
-Spring Boot,<br> 
+Spring Boot 2.7.10,<br> 
 Spring Cloud Discovery: Eureka Server, Eureka Client <br>
 Spring Cloud Routing > Gateway <br>
 Spring Reactive Web <br>
